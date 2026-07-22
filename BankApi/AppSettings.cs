@@ -23,6 +23,7 @@ namespace BankApi
         public static IServiceCollection AddServices(this IServiceCollection service)
         {
             service.AddScoped<IEmployee,EmployeeRepo>();
+            service.AddScoped<IParty,PartyRepo>();
             return service;
         }
         public static IServiceCollection AddConnectionString(

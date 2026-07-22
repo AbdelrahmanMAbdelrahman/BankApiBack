@@ -3,11 +3,11 @@
     public class Party
     {
  public Guid ID { get; set; }
-        public string internalCode { get; set; } = default!;
- public string partyGroupName { get; set; } = default!;
-        public string active { get; set; } = default!;
-        public string nativeName { get; set; } = default!;
-        public string name { get; set; } = default!;
-        public string partyCode { get; set; } = default!;
+        public string InternalCode { get; set; } = default!;
+ public string PartyGroupName { get; set; } = default!;
+        public string Active { get; set; } = default!;
+        public string NativeName { get; set; } = default!;
+        public string Name { get; set; } = default!;
+        public string PartyCode { get; set; } = default!;
     }
 }
