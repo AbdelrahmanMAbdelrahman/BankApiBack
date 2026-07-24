@@ -28,7 +28,7 @@ namespace BankApi.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result.ToProblem());
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> updateParty([FromRoute] PartyReq req, [FromQuery] Guid id, CancellationToken ct) { 
+        public async Task<IActionResult> updateParty([FromBody] PartyReq req, [FromRoute] Guid id, CancellationToken ct) { 
        var result=await party.UpdateParty(req,id,ct);
             return result.IsSuccess ? NoContent() : BadRequest(result.ToProblem());
         }

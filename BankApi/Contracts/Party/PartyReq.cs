@@ -3,7 +3,7 @@
     public record PartyReq(
         string internalCode,
   string partyGroupName,
-  string active,
+  bool active,
   string nativeName,
   string name,
   string partyCode);
