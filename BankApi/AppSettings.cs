@@ -6,6 +6,7 @@ using System.Reflection;
 using FluentValidation.AspNetCore;
 using BankApi.Services;
 using BankApi.Repos;
+using BankApi.Models;
 
 namespace BankApi
 {
@@ -24,6 +25,7 @@ namespace BankApi
         {
             service.AddScoped<IEmployee,EmployeeRepo>();
             service.AddScoped<IParty,PartyRepo>();
+            service.AddScoped<IContract,ContractRepo>();
             return service;
         }
         public static IServiceCollection AddConnectionString(

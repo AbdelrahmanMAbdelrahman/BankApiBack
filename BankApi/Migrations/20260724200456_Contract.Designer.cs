@@ -4,6 +4,7 @@ using BankApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20260724200456_Contract")]
+    partial class Contract
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,17 +47,16 @@ namespace BankApi.Migrations
                     b.Property<int>("LeasingType")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PartyID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("PartyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("PartyID");
-
-                    b.ToTable("Contracts", (string)null);
+                    b.ToTable("Contracts");
                 });
 
             modelBuilder.Entity("BankApi.Models.Employee", b =>
@@ -131,7 +133,7 @@ namespace BankApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("BankApi.Models.Party", b =>
@@ -170,23 +172,7 @@ namespace BankApi.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Parties", (string)null);
-                });
-
-            modelBuilder.Entity("BankApi.Models.Contract", b =>
-                {
-                    b.HasOne("BankApi.Models.Party", "Party")
-                        .WithMany("Contracts")
-                        .HasForeignKey("PartyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Party");
-                });
-
-            modelBuilder.Entity("BankApi.Models.Party", b =>
-                {
-                    b.Navigation("Contracts");
+                    b.ToTable("Parties");
                 });
 #pragma warning restore 612, 618
         }

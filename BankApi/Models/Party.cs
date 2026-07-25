@@ -1,4 +1,6 @@
-﻿namespace BankApi.Models
+﻿using System.Collections.ObjectModel;
+
+namespace BankApi.Models
 {
     public class Party
     {
@@ -9,5 +11,6 @@
         public string NativeName { get; set; } = default!;
         public string Name { get; set; } = default!;
         public string PartyCode { get; set; } = default!;
+        public ICollection<Contract> Contracts { get; set; } = [];
     }
 }

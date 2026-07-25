@@ -8,6 +8,7 @@ namespace BankApi.Data
     {
        public DbSet<Employee>Employees { get; set; } 
        public DbSet<Party> Parties { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
          
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

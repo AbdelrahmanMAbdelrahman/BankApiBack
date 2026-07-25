@@ -4,6 +4,7 @@ using BankApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20260725063848_contractRelationship")]
+    partial class contractRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,7 @@ namespace BankApi.Migrations
 
                     b.HasIndex("PartyID");
 
-                    b.ToTable("Contracts", (string)null);
+                    b.ToTable("Contracts");
                 });
 
             modelBuilder.Entity("BankApi.Models.Employee", b =>
@@ -131,7 +134,7 @@ namespace BankApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("BankApi.Models.Party", b =>
@@ -170,7 +173,7 @@ namespace BankApi.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Parties", (string)null);
+                    b.ToTable("Parties");
                 });
 
             modelBuilder.Entity("BankApi.Models.Contract", b =>
