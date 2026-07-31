@@ -4,7 +4,7 @@ namespace BankApi.Contracts.Contract
 {
     public record ContractReq
  (
-        string partyName,
+        //string partyName,
         string contractNumber,
         EnContractType contractType ,
         bool iSLetter ,
