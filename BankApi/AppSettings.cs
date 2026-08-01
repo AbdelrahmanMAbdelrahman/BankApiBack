@@ -26,6 +26,7 @@ namespace BankApi
             service.AddScoped<IEmployee,EmployeeRepo>();
             service.AddScoped<IParty,PartyRepo>();
             service.AddScoped<IContract,ContractRepo>();
+            service.AddScoped<ICurrency,CurrencyRepo>();
             return service;
         }
         public static IServiceCollection AddConnectionString(
