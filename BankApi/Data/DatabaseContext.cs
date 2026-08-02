@@ -10,6 +10,7 @@ namespace BankApi.Data
        public DbSet<Party> Parties { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Facility> Facilities { get; set; }
          
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
