@@ -7,7 +7,7 @@ namespace BankApi.Contracts.Facility
         string accountNumber, 
         Guid partyID, 
         Guid currencyID, 
-        EnFacilityType facilityType
+        int facilityType
         );
      
 }

@@ -1,8 +1,11 @@
 ﻿using BankApi.Contracts.Facility;
+using BankApi.Contracts.Pagination;
 using BankApi.Data;
 using BankApi.Errors;
+using BankApi.Migrations;
 using BankApi.Models;
 using BankApi.Services;
+using BankApi.Utils;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -18,7 +21,7 @@ namespace BankApi.Repos
             {
                 return Result.Failure<FacilityRes>(PartyErrors.NotFound);
             }
-            Currency? currency = await database.Currencies.FindAsync(req.currencyID);
+           BankApi.Models. Currency? currency = await database.Currencies.FindAsync(req.currencyID);
             if (party is null)
             {
                 return Result.Failure<FacilityRes>(CurrencyError.NotFound);
@@ -45,12 +48,24 @@ namespace BankApi.Repos
                 Result.Failure(FacilityError.InternalServerError);
         }
 
-        public async Task<Result<List<FacilityRes>>> GetFacilities(CancellationToken ct)
+        public async Task<Result<PaginatedList<FacilityRes>>> GetFacilities(PaginatedReq req,CancellationToken ct)
         {
-            List<FacilityRes> facilities = await GetFacilitiesQuer().ToListAsync();
-            return facilities.Any() ?
+            IQueryable<FacilityRes> facRes =  database.Facilities
+                .Select(
+                f => new FacilityRes(
+                    f.ID,
+                    f.AccountNumber,
+                    f.PartyID,
+                    f.CurrencyID,
+                    f.FacilityType,
+                    f.Currency.Name,
+                    f.Party.Name
+                    )
+                );
+            PaginatedList<FacilityRes> facilities = await PaginatedList<FacilityRes>.Create(facRes,req.pageSize,req.pageNumber);
+            return facilities.TotalPages>0 ?
                 Result.Success(facilities) :
-                Result.Failure<List<FacilityRes>>(FacilityError.NotFound);
+                Result.Failure<PaginatedList<FacilityRes>>(FacilityError.NotFound);
         }
 
         public async Task<Result<List<FacilityRes>>> GetFacilitiesPerCurrency(Guid currencyId, CancellationToken ct)
@@ -63,7 +78,7 @@ namespace BankApi.Repos
                     f.AccountNumber,
                     f.PartyID,
                     f.CurrencyID,
-                    f.FacilityType.ToString(),
+                    f.FacilityType,
                     f.Currency.Name,
                     f.Party.Name
                     )
@@ -81,7 +96,7 @@ namespace BankApi.Repos
                     f.AccountNumber,
                     f.PartyID,
                     f.CurrencyID,
-                    f.FacilityType.ToString(),
+                    f.FacilityType,
                     f.Currency.Name,
                     f.Party.Name
                     )
@@ -98,7 +113,7 @@ namespace BankApi.Repos
                     f.AccountNumber,
                     f.PartyID,
                     f.CurrencyID,
-                    f.FacilityType.ToString(),
+                    f.FacilityType,
                     f.Currency.Name,
                     f.Party.Name
                     )
@@ -119,7 +134,7 @@ namespace BankApi.Repos
                     f.AccountNumber,
                     f.PartyID,
                     f.CurrencyID,
-                    f.FacilityType.ToString(),
+                    f.FacilityType,
                     f.Currency.Name,
                     f.Party.Name
                     )
@@ -144,7 +159,7 @@ namespace BankApi.Repos
             {
                 return Result.Failure(PartyErrors.NotFound);
             }
-            Currency? currency = await database.Currencies.FindAsync(req.currencyID);
+           BankApi.Models. Currency? currency = await database.Currencies.FindAsync(req.currencyID);
             if (party is null)
             {
                 return Result.Failure(CurrencyError.NotFound);

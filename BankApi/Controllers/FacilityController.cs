@@ -1,6 +1,8 @@
 ﻿using BankApi.Contracts.Facility;
+using BankApi.Contracts.Pagination;
 using BankApi.Errors;
 using BankApi.Services;
+using BankApi.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -11,9 +13,10 @@ namespace BankApi.Controllers
     public class FacilityController(IFacility facility):ControllerBase
     {
         [HttpGet("")]
-        public async Task<IActionResult> GetFacilities(CancellationToken ct)
+        public async Task<IActionResult> GetFacilities([FromQuery]PaginatedReq req,CancellationToken ct)
         {
-            Result<List<FacilityRes>> facilities = await facility.GetFacilities(ct);
+            
+            Result<PaginatedList<FacilityRes>> facilities = await facility.GetFacilities(req,ct);
             return facilities.IsSuccess ?
                 Ok(facilities.Value) :
                 facilities.ToProblem();
