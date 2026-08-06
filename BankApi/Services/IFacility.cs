@@ -13,6 +13,7 @@ namespace BankApi.Services
         Task<Result<List<FacilityRes>>> GetFacilitiesPerCurrency(Guid currencyId, CancellationToken ct);
         Task<Result<List<FacilityRes>>> GetFacilitiesPerParty(Guid partyId, CancellationToken ct);
         Task<Result<FacilityRes>> GetFacility(Guid id, CancellationToken ct);
+        Task<Result<PaginatedList<FacilityRes>>> Search(FacilitySearch search,PaginatedReq req, CancellationToken ct);
         Task<Result> UpdateFacility(FacilityReq req, Guid id, CancellationToken ct);
     }
 }

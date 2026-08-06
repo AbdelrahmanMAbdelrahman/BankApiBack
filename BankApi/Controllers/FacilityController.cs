@@ -29,6 +29,17 @@ namespace BankApi.Controllers
                 Ok(res.Value) :
                 res.ToProblem();
         }
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(
+            [FromQuery] FacilitySearch search,
+            [FromQuery] PaginatedReq req,
+            CancellationToken ct)
+        {
+            Result<PaginatedList<FacilityRes>>result = await facility.Search(search, req, ct);
+            return result.IsSuccess?
+                Ok(result.Value) :
+                result.ToProblem();
+        }
         [HttpGet("Party/{partyId}")]
         public async Task<IActionResult> GetFacilitiesPerParty(Guid partyId,CancellationToken ct)
         {

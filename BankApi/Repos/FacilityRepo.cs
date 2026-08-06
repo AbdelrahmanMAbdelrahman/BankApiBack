@@ -173,5 +173,39 @@ namespace BankApi.Repos
         {
             return await database.SaveChangesAsync(ct) > 0;
         }
+
+        public async Task<Result<PaginatedList<FacilityRes>>> Search(
+            FacilitySearch search, 
+            PaginatedReq req,
+            CancellationToken ct
+                                                              )
+        {
+            IQueryable<Facility> query =  database.Facilities.AsNoTracking();
+            if (search.currencyID.HasValue)//guid
+            {
+                query = query.Where(f => f.CurrencyID == search.currencyID);
+            }
+            if (search.facilityType.HasValue)
+            {
+                query = query.Where(f => f.FacilityType == search.facilityType);
+            }
+            if (search.partyID.HasValue)
+            {
+                query = query.Where(f => f.PartyID == search.partyID);
+            }
+            if (!string.IsNullOrWhiteSpace(search.accountNumber))
+            {
+                query = query.Where(f => f.AccountNumber.Contains( search.accountNumber));
+            }
+            IQueryable<FacilityRes>queryRes= query.Select(f => 
+            new FacilityRes(
+                f.ID,f.AccountNumber,f.PartyID,f.CurrencyID,f.FacilityType,f.Currency.Name,f.Party.Name
+                ));
+            PaginatedList<FacilityRes> facilities =
+               await PaginatedList<FacilityRes>.Create(queryRes, req.pageSize, req.pageNumber);
+            return facilities.TotalPages > 0 ?
+                Result.Success(facilities) :
+                Result.Failure<PaginatedList<FacilityRes>>(FacilityError.NotFound);
+        }
     }
 }
