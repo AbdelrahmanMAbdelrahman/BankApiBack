@@ -4,15 +4,14 @@ using BankApi.Data;
 using BankApi.Errors;
 using BankApi.Migrations;
 using BankApi.Models;
-using BankApi.Services;
 using BankApi.Utils;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace BankApi.Repos
+namespace BankApi.Services
 {
-    public class FacilityRepo(DatabaseContext database) : IFacility
+    public class FacilityService(DatabaseContext database) : IFacility
     {
         public async Task<Result<FacilityRes>> CreateFacility(FacilityReq req, CancellationToken ct)
         {
@@ -21,7 +20,7 @@ namespace BankApi.Repos
             {
                 return Result.Failure<FacilityRes>(PartyErrors.NotFound);
             }
-           BankApi.Models. Currency? currency = await database.Currencies.FindAsync(req.currencyID);
+           Models. Currency? currency = await database.Currencies.FindAsync(req.currencyID);
             if (party is null)
             {
                 return Result.Failure<FacilityRes>(CurrencyError.NotFound);
@@ -159,7 +158,7 @@ namespace BankApi.Repos
             {
                 return Result.Failure(PartyErrors.NotFound);
             }
-           BankApi.Models. Currency? currency = await database.Currencies.FindAsync(req.currencyID);
+           Models. Currency? currency = await database.Currencies.FindAsync(req.currencyID);
             if (party is null)
             {
                 return Result.Failure(CurrencyError.NotFound);

@@ -11,5 +11,6 @@ namespace BankApi.Models
         public Guid CurrencyID { get; set; }
         public Party Party { get; set; } = default!;
         public Currency Currency { get; set; } = default!;
+        public Disbursement Disbursement { get; set; } = default!;
     }
 }

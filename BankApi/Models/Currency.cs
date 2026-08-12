@@ -9,6 +9,7 @@
         public bool DefaultCurrency {  get; set; }
         public bool BaseCurrency {  get; set; }
         public ICollection<Facility> Facilities { get; set; } = [];
+        public ICollection<Bank> Banks { get; set; } = [];
         
     }
 }

@@ -11,6 +11,8 @@ namespace BankApi.Data
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Facility> Facilities { get; set; }
+        public DbSet<Disbursement> Disbursements { get; set; }
+        public DbSet<Bank> Banks { get; set; }
          
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using BankApi.Services;
-using BankApi.Repos;
 using BankApi.Models;
 
 namespace BankApi
@@ -23,11 +22,13 @@ namespace BankApi
 
         public static IServiceCollection AddServices(this IServiceCollection service)
         {
-            service.AddScoped<IEmployee,EmployeeRepo>();
-            service.AddScoped<IParty,PartyRepo>();
-            service.AddScoped<IContract,ContractRepo>();
-            service.AddScoped<ICurrency,CurrencyRepo>();
-            service.AddScoped<IFacility,FacilityRepo>();
+            service.AddScoped<IEmployee,EmployeeService>();
+            service.AddScoped<IParty,PartyService>();
+            service.AddScoped<IContract,ContractService>();
+            service.AddScoped<ICurrency,CurrencyService>();
+            service.AddScoped<IFacility,FacilityService>();
+            service.AddScoped<IDisbursement,DisbursementService>();
+            service.AddScoped<IBank,BankService>();
             return service;
         }
         public static IServiceCollection AddConnectionString(

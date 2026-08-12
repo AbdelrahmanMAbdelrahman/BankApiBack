@@ -2,14 +2,13 @@
 using BankApi.Data;
 using BankApi.Errors;
 using BankApi.Models;
-using BankApi.Services;
 using Mapster;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApi.Repos
+namespace BankApi.Services
 {
-    public class PartyRepo(DatabaseContext database):IParty
+    public class PartyService(DatabaseContext database):IParty
     {
         public async Task<Result<PartyRes>> AddNewParty(PartyReq req, CancellationToken ct)
         {

@@ -11,7 +11,7 @@ namespace BankApi.Utils
         public bool HasPreviousPage { get; set; }
         public int TotalPages { get; set; }
 
-        public PaginatedList(int pageNumber,List<T>items,int totalCount,int pageSize)
+        public PaginatedList(List<T>items, int pageNumber, int totalCount,int pageSize)
         {
             PageNumber = pageNumber;
             Items = items;
@@ -25,7 +25,7 @@ namespace BankApi.Utils
                 .Take(pageSize)
                 .ToListAsync();
             int count = await items.CountAsync();
-            return new PaginatedList<T>(pageNumber,data,count,pageSize);
+            return new PaginatedList<T>(data, pageNumber, count,pageSize);
         }
     }
 }

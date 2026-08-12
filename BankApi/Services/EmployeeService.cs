@@ -2,13 +2,12 @@
 using BankApi.Data;
 using BankApi.Errors;
 using BankApi.Models;
-using BankApi.Services;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApi.Repos
+namespace BankApi.Services
 {
-    public class EmployeeRepo(DatabaseContext database) : IEmployee
+    public class EmployeeService(DatabaseContext database) : IEmployee
     {
         public async Task<Result> AddNewEmployee(EmployeeReq req, CancellationToken ct)
         {

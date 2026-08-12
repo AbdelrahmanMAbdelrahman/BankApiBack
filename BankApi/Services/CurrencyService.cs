@@ -2,14 +2,13 @@
 using BankApi.Data;
 using BankApi.Errors;
 using BankApi.Models;
-using BankApi.Services;
 using Mapster;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApi.Repos
+namespace BankApi.Services
 {
-    public class CurrencyRepo(DatabaseContext database) : ICurrency
+    public class CurrencyService(DatabaseContext database) : ICurrency
     {
         public async Task<Result<CurrencyRes>> CreateCurrency(CurrencyReq currencyReq, CancellationToken ct)
         {

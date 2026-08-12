@@ -3,13 +3,12 @@ using BankApi.Contracts.Party;
 using BankApi.Data;
 using BankApi.Errors;
 using BankApi.Models;
-using BankApi.Services;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApi.Repos
+namespace BankApi.Services
 {
-    public class ContractRepo(DatabaseContext context) : IContract
+    public class ContractService(DatabaseContext context) : IContract
     {
         public async Task<Result<ContractRes>> createContract(ContractReq req, CancellationToken ct)
         {
@@ -30,7 +29,7 @@ namespace BankApi.Repos
             Contract? contract =await context.Contracts.FindAsync(id);
             if(contract is null)return  Result.Failure<ContractRes>(ContractErrors.Notfound);
             context.Contracts.Remove(contract);
-            return (await Commit()) ?
+            return await Commit() ?
                  Result.Success() :
                  Result.Failure(ContractErrors.BadRequest);
         }

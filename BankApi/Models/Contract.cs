@@ -13,5 +13,6 @@ namespace BankApi.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }   
         public Party Party { get; set; }= default!;
+        public Disbursement Disbursement { get; set; }=default!;
     }
 }

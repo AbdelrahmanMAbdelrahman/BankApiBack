@@ -4,6 +4,7 @@ using BankApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20260808083232_Disbursement")]
+    partial class Disbursement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,63 +24,6 @@ namespace BankApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BankApi.Models.Bank", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Abbreviation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("CurrencyID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EMail")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Fax")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LookupCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("SwiftCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CurrencyID");
-
-                    b.ToTable("Banks");
-                });
 
             modelBuilder.Entity("BankApi.Models.Contract", b =>
                 {
@@ -150,40 +96,40 @@ namespace BankApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount")
+                    b.Property<decimal>("amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Comments")
+                    b.Property<string>("comments")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ContractID")
+                    b.Property<Guid>("contractID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("DisbursementDate")
+                    b.Property<DateTime>("disbursementDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DisbursementMethod")
+                    b.Property<int>("disbursementMethod")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("FacilityID")
+                    b.Property<Guid>("facilityID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Posted")
+                    b.Property<bool>("posted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Reviewed")
+                    b.Property<bool>("reviewed")
                         .HasColumnType("bit");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ContractID")
+                    b.HasIndex("contractID")
                         .IsUnique();
 
-                    b.HasIndex("FacilityID")
+                    b.HasIndex("facilityID")
                         .IsUnique();
 
-                    b.ToTable("Disbursements");
+                    b.ToTable("Disbursement");
                 });
 
             modelBuilder.Entity("BankApi.Models.Employee", b =>
@@ -331,17 +277,6 @@ namespace BankApi.Migrations
                     b.ToTable("Parties");
                 });
 
-            modelBuilder.Entity("BankApi.Models.Bank", b =>
-                {
-                    b.HasOne("BankApi.Models.Currency", "Currency")
-                        .WithMany("Banks")
-                        .HasForeignKey("CurrencyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Currency");
-                });
-
             modelBuilder.Entity("BankApi.Models.Contract", b =>
                 {
                     b.HasOne("BankApi.Models.Party", "Party")
@@ -357,13 +292,13 @@ namespace BankApi.Migrations
                 {
                     b.HasOne("BankApi.Models.Contract", "Contract")
                         .WithOne("Disbursement")
-                        .HasForeignKey("BankApi.Models.Disbursement", "ContractID")
+                        .HasForeignKey("BankApi.Models.Disbursement", "contractID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BankApi.Models.Facility", "Facility")
                         .WithOne("Disbursement")
-                        .HasForeignKey("BankApi.Models.Disbursement", "FacilityID")
+                        .HasForeignKey("BankApi.Models.Disbursement", "facilityID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -399,8 +334,6 @@ namespace BankApi.Migrations
 
             modelBuilder.Entity("BankApi.Models.Currency", b =>
                 {
-                    b.Navigation("Banks");
-
                     b.Navigation("Facilities");
                 });
 
