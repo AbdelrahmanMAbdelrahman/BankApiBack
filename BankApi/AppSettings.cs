@@ -29,6 +29,7 @@ namespace BankApi
             service.AddScoped<IFacility,FacilityService>();
             service.AddScoped<IDisbursement,DisbursementService>();
             service.AddScoped<IBank,BankService>();
+            service.AddScoped<IFileService,FileService>();
             return service;
         }
         public static IServiceCollection AddConnectionString(

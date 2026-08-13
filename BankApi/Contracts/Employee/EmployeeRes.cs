@@ -1,4 +1,6 @@
-﻿namespace BankApi.Contracts.Employee
+﻿using BankApi.Contracts.File;
+
+namespace BankApi.Contracts.Employee
 {
     public record EmployeeRes(
         Guid id ,
@@ -15,7 +17,8 @@
         string address,
         string officePhone,
         string mobilePhone,
-        string notes
+        string notes,
+        UploadedFileRes image
        
         );
    

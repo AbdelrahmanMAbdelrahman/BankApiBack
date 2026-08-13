@@ -5,7 +5,7 @@ namespace BankApi.Services
 {
     public interface IEmployee
     {
-        Task<Result> AddNewEmployee(EmployeeReq req,CancellationToken ct);
+        Task<Result<EmployeeRes>> AddNewEmployee(EmployeeReq req,CancellationToken ct);
         Task<Result> DeleteEmployee(Guid id, CancellationToken ct);
         Task<Result> UpdateEmployee(EmployeeReq req,Guid id, CancellationToken ct);
         Task<Result<EmployeeRes>> GetEmployee(Guid id, CancellationToken ct);

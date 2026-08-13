@@ -18,19 +18,18 @@ namespace BankApi.Controllers
             Result<List<EmployeeRes>> res = await employee.GetAll(ct);
             return (res.IsSuccess) ? Ok(res) : res.ToProblem();
         }
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(Guid id,CancellationToken ct) {
             Result<EmployeeRes> res = await employee.GetEmployee(id, ct);
             return res.IsSuccess ? Ok(res) : res.ToProblem();
         }
-        [HttpPost("/add")]
-        public async Task<IActionResult> AddEmployee(EmployeeReq req,CancellationToken ct) {
-            Employee emp = req.Adapt<Employee>();
-            Result result = await employee.AddNewEmployee(req, ct);
-            EmployeeRes res=emp.Adapt<EmployeeRes>();
-            return result.IsSuccess?Ok(res) : result.ToProblem();
+        [HttpPost("")]
+        public async Task<IActionResult> AddEmployee([FromForm]EmployeeReq req,CancellationToken ct) {
+            Result<EmployeeRes> result = await employee.AddNewEmployee(req, ct);
+            
+            return result.IsSuccess ? CreatedAtAction(nameof(GetEmployee),new{id=result.Value.id},result.Value) : result.ToProblem();
         }
-        [HttpPost("/{id}/edit")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditEmployee(EmployeeReq req, Guid id, CancellationToken ct) {
             Result result = await employee.UpdateEmployee(req, id, ct);
             return result.IsSuccess?NoContent():result.ToProblem();

@@ -1,4 +1,6 @@
-﻿namespace BankApi.Contracts.Employee
+﻿using BankApi.Contracts.File;
+
+namespace BankApi.Contracts.Employee
 {
     public record EmployeeReq(
          string fName,
@@ -14,7 +16,8 @@
         string address,
         string officePhone,
         string mobilePhone,
-        string notes
+        string notes,
+        IFormFile? image
    
         );
      

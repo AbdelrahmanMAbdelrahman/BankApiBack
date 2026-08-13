@@ -38,6 +38,7 @@ namespace BankApi.Mapping
                 .Map(des => des.userHash, src => src.UserHash)
                 .Map(des => des.userName, src => src.UserName)
                 .Map(des => des.notes, src => src.Notes)
+                .Map(des => des.image, src => src.UploadedImage)
                 .Map(des => des.reportsTo, src => src.ReportsTo);
         }
     }

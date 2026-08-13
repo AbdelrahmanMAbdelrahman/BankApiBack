@@ -13,6 +13,7 @@ namespace BankApi.Data
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Disbursement> Disbursements { get; set; }
         public DbSet<Bank> Banks { get; set; }
+        public DbSet<UploadedImage> Images { get; set; }
          
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

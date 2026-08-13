@@ -3,6 +3,8 @@
     public class Employee
     {
 public Guid Id { get; set; }
+public Guid? UploadedImageID {  get; set; }
+public UploadedImage? UploadedImage { get; set; } = default!;
 public string FName { get; set; } = default!;
 public string LName { get; set; } = default!;
 public string UserName { get; set; } = default!;
