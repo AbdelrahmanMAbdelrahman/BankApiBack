@@ -16,7 +16,7 @@ namespace BankApi.Contracts.Employee
         string address,
         string officePhone,
         string mobilePhone,
-        string notes,
+        string? notes,
         IFormFile? image
    
         );

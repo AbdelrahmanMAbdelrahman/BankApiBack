@@ -18,6 +18,6 @@ public string ReportsTo { get; set; } = default!;
 public string Address { get; set; } = default!;
 public string OfficePhone { get; set; } = default!;
 public string MobilePhone { get; set; } = default!;
-public string Notes { get; set; } = default!;
+public string? Notes { get; set; } 
     }
 }
