@@ -1,10 +1,9 @@
 ﻿using BankApi.Contracts.Employee;
+using BankApi.Contracts.Pagination;
 using BankApi.Errors;
-using BankApi.Models;
 using BankApi.Services;
-using Mapster;
+using BankApi.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace BankApi.Controllers
 {
@@ -13,9 +12,10 @@ namespace BankApi.Controllers
     public class EmployeeController(IEmployee employee):ControllerBase
     {
         [HttpGet("")]
-        public async Task<IActionResult> GetEmployees(CancellationToken ct)
+        public async Task<IActionResult> GetEmployees([FromQuery]PaginatedReq req,CancellationToken ct)
+        
         {
-            Result<List<EmployeeRes>> res = await employee.GetAll(ct);
+            Result<PaginatedList<EmployeeRes>> res = await employee.GetAll(req,ct);
             return (res.IsSuccess) ? Ok(res) : res.ToProblem();
         }
         [HttpGet("{id}")]
@@ -30,7 +30,7 @@ namespace BankApi.Controllers
             return result.IsSuccess ? CreatedAtAction(nameof(GetEmployee),new{id=result.Value.id},result.Value) : result.ToProblem();
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditEmployee(EmployeeReq req, Guid id, CancellationToken ct) {
+        public async Task<IActionResult> EditEmployee([FromForm]EmployeeReq req, Guid id, CancellationToken ct) {
             Result result = await employee.UpdateEmployee(req, id, ct);
             return result.IsSuccess?NoContent():result.ToProblem();
 

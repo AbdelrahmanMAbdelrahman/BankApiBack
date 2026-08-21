@@ -1,8 +1,10 @@
 ﻿using BankApi.Contracts.Employee;
 using BankApi.Contracts.File;
+using BankApi.Contracts.Pagination;
 using BankApi.Data;
 using BankApi.Errors;
 using BankApi.Models;
+using BankApi.Utils;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -34,14 +36,17 @@ namespace BankApi.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Result<List<EmployeeRes>>> GetAll(CancellationToken ct)
+        public async Task<Result<PaginatedList<EmployeeRes>>> GetAll(PaginatedReq req,CancellationToken ct)
         {
-            List<Employee> emps = await database.Employees.ToListAsync();
+           
 
-            IQueryable<Employee> employees =  database.Employees;
-            List<EmployeeRes> res = mapToEmployeeRes(employees, ct).ToList();
-            return res.Count() > 0 ? Result.Success(res) :
-                Result.Failure<List<EmployeeRes>>(EmployeeErrors.NotFound);
+            IQueryable<Employee> employees =  database.Employees
+                .Include(e=>e.UploadedImage);
+
+            PaginatedList<EmployeeRes> paginatedEmps =await PaginatedList<EmployeeRes>.Create(mapToEmployeeRes(employees,ct),req.pageSize,req.pageNumber);
+            
+            return paginatedEmps.TotalPages > 0 ? Result.Success(paginatedEmps) :
+                Result.Failure<PaginatedList<EmployeeRes>>(EmployeeErrors.NotFound);
         }
         private  IQueryable< EmployeeRes> mapToEmployeeRes(IQueryable<Employee> employees,CancellationToken ct)
         {
@@ -86,6 +91,10 @@ namespace BankApi.Services
             Employee? emp = await database.Employees.FindAsync(id);
             if (emp is null) return Result.Failure(EmployeeErrors.NotFound);
             req.Adapt(emp);
+            if (req.image is not null)
+            {
+                emp.UploadedImage = await getUploadedImageMetaData(req.image, ct);
+            }
             return await Commit()  ? Result.Success() : Result.Failure(EmployeeErrors.BadRequest);
         }
         private async Task<UploadedImage> getUploadedImageMetaData(IFormFile image,CancellationToken ct)

@@ -26,7 +26,7 @@
         T _val;
         public Result(bool isSuccess, Error err,T value) :base(isSuccess,err)
         {
-_val = value;    
+         _val = value;    
         }
         public T Value =>IsSuccess? _val:throw new InvalidOperationException();
     }
